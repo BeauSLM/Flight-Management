@@ -4,10 +4,7 @@
 
 int main(int argc, const char** argv) {
     titleScreen();
-    int rows, seats;
-    // readFlightInfo(rows, seats);
-    rows = 30, seats = 3;
-    Flight f = Flight(rows, seats);
+    Flight f = Flight();
     int choice;
 
     while ((choice = optionSelect())) {

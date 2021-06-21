@@ -2,8 +2,6 @@
 // TODO: error handling for option select - incorrect number and other stuff
 // TODO: maybe make a seperate function to print out the option menu?
 
-#include <fstream>
-#include <iostream>
 #include "Flight.h"
 
 inline void cleanStandardInputStream() {
@@ -37,11 +35,4 @@ inline int optionSelect() {
     int number;
     std::cin >> number;
     return number;
-}
-
-inline void readFlightInfo(int& rows, int& seats) {
-    // TODO: read # of rows and seats from the file, and assign them to the passed references
-    std::ifstream input;
-    input.open("../lib/flight_info.txt");
-    input.close();
 }
