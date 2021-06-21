@@ -1,13 +1,46 @@
-// main.c
+// main.cpp
 // Beau McCartney
 #include "main.h"
 
 int main(int argc, const char** argv) {
-    std::cout << "Version: 1.0" << std::endl;
-    std::cout << "Flight Management Program in C++" << std::endl;
-    std::cout << "Beau McCartney" << std::endl;
-    pressEnter();
-    cleanStandardInputStream();
+    titleScreen();
+    int rows, seats;
+    // readFlightInfo(rows, seats);
+    rows = 30, seats = 3;
+    Flight f = Flight(rows, seats);
+    int choice;
+
+    while ((choice = optionSelect())) {
+        switch (choice) {
+            // seat map
+            case 1:
+                break;
+            // passenger info
+            case 2:
+                f.printPassengerInfo();
+                break;
+            // add new passenger
+            case 3:
+                f.addPassenger();
+                break;
+            // remove passenger
+            case 4:
+                f.removePassenger();
+                break;
+            // save flight info (i.e. write)
+            case 5:
+                break;
+            // Quit
+            case 6:
+                exit(0);
+                break;
+        }
+    }
+
+    if (!choice) {
+        std::cout << "Please enter a number between 1 and 6" << std::endl;
+        exit(1);
+    }
 
     return 0;
 }
