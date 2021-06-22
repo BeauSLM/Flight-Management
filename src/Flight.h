@@ -1,6 +1,8 @@
 // TODO: when adding passenger, check that length of passenger array doesn't exceed number of available seats and do something about it
+// TODO: make sure you can't add two passengers to the same seat
 // TODO: ensure passenger vector is always sorted by passenger id, implement binary search or something to find passengers by id
 // TODO: handle case where names contain spaces
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -21,7 +23,7 @@ class Flight {
                     return this -> row;
                 }
 
-                int getSeat() const {
+                char getSeat() const {
                     return this -> seat;
                 }
 
@@ -171,7 +173,38 @@ class Flight {
         }
 
         void printSeatMap() {
-            ;
+            cout << "     ";
+            for (size_t i = 0; i < size_t(seats); i++) {
+                // print row letters on top
+                printf("%-4c", char(i + 65));
+            }
+            cout << endl << "   ";
+
+            for (size_t i = 0; i < size_t(seats); i++) {
+                cout << "+---";
+            }
+            cout << "+" << endl;
+
+            for (size_t row = 0; row < size_t(rows) * 2; row++) {
+                if (row % 2) {
+                    cout << "   ";
+                    for (size_t column = 0; column < size_t(seats); column++) {
+                        cout << "+---";
+                    }
+                    cout << "+";
+                } else {
+                    printf("%-3li|", row / 2);
+                    for (char column = 'A'; column < char('A' + seats); column++) {
+                        if (isSeatOccupied(row / 2, column)) {
+                            cout << " X |";
+                        } else {
+                            cout << "   |";
+                        }
+                    }
+                }
+
+                cout << endl;
+            }
         }
 
         void printPassengerInfo() {
@@ -190,6 +223,17 @@ class Flight {
                 cout << endl;
             }
             cout << endl;
+        }
+
+        bool isSeatOccupied(const int row, const char seat) {
+            for (size_t i = 0; i < pass.size(); i++) {
+                if (pass[i].getSeat().getRow() != row || pass[i].getSeat().getSeat() != seat) {
+                    continue;
+                }
+
+                return true;
+            }
+            return false;
         }
 
         void addPassenger(const string firstName, const string lastName, const string phone, const string id, const int row, const char seat) {

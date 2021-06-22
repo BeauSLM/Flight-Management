@@ -11,6 +11,7 @@ int main(int argc, const char** argv) {
         switch (choice) {
             // seat map
             case 1:
+                f.printSeatMap();
                 break;
             // passenger info
             case 2:
