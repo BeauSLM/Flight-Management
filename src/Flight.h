@@ -91,7 +91,7 @@ class Flight {
         int rows;
         int seats;
         string flightNumber;
-        vector<Passenger> passengers;
+        vector<Passenger> pass;
     public:
         // assumes that the file has enough seats to hold the given passengers
         Flight() {
@@ -175,18 +175,25 @@ class Flight {
         }
 
         void printPassengerInfo() {
+            printf("%-17s%-17s%-15s%-6s%-6s%-5s\n", "First Name", "Last Name", "Phone", "Row", "Seat", "ID");
             cout << " ";
-            for (int i = 0; i < 64; i++) {
+            for (int i = 0; i < 65; i++) {
                 cout << "-";
             }
-            for (size_t i = 0; i < passengers.size(); i++) {
-                cout << passengers[i].getSeat().getRow() << endl;
+            cout << endl;
+            for (size_t i = 0; i < pass.size(); i++) {
+                printf("%-17s%-16s%-16s%-6d%-6c%-5s\n", pass[i].getFirstName().c_str(), pass[i].getLastName().c_str(), pass[i].getPhone().c_str(), pass[i].getSeat().getRow(), pass[i].getSeat().getSeat(), pass[i].getID().c_str());
+                cout << " ";
+                for (int i = 0; i < 65; i++) {
+                    cout << "-";
+                }
+                cout << endl;
             }
             cout << endl;
         }
 
         void addPassenger(const string firstName, const string lastName, const string phone, const string id, const int row, const char seat) {
-            passengers.emplace_back(firstName, lastName, phone, id, row, seat); 
+            pass.emplace_back(firstName, lastName, phone, id, row, seat); 
         }
 
         void addPassenger() {
@@ -212,7 +219,7 @@ class Flight {
             cout << "Enter the passenger's desired seat: " << endl;
             cin >> seat;
 
-            passengers.emplace_back(firstName, lastName, phone, id, row, seat);
+            pass.emplace_back(firstName, lastName, phone, id, row, seat);
             cout << "Succesfully added a passenger!" << endl << endl;
         }
 
@@ -221,9 +228,9 @@ class Flight {
             cout << "Please enter the id of the passenger that needs to be removed: " << endl;
             cin >> id;
             
-            for (size_t i = 0; i < passengers.size(); i++) {
-                if (passengers[i].getID() == id) {
-                    passengers.erase(passengers.begin() + i);
+            for (size_t i = 0; i < pass.size(); i++) {
+                if (pass[i].getID() == id) {
+                    pass.erase(pass.begin() + i);
                     cout << "successfuly removed a passenger!" << endl << endl;
                     return true;
                 }
