@@ -2,12 +2,16 @@
 // TODO: make sure you can't add two passengers to the same seat
 // TODO: ensure passenger vector is always sorted by passenger id, implement binary search or something to find passengers by id
 // TODO: handle case where names contain spaces
+// TODO: write destructor that automatically populates the output file with the passenger array
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <string.h>
 using namespace std;
 
 inline void cleanFileInputStream(ifstream &input);
@@ -90,8 +94,7 @@ class Flight {
             }
     };
     private:
-        int rows;
-        int seats;
+        int rows, seats;
         string flightNumber;
         vector<Passenger> pass;
     public:
@@ -99,15 +102,7 @@ class Flight {
         Flight() {
             ifstream input;
             string fileName = "flight_info.txt";
-            // cout << "Enter filename: ";
-            // cin >> fileName;
             input.open("lib/" + fileName);
-            // for(int i = 0; input.fail() && i < 2; i++) {
-            //     cout << "Please enter a valid filename" << endl;
-            //     cin >> fileName;
-            //     input.clear();
-            //     input.open("lib/" + fileName);
-            // }
 
             // quick and dirty error handling
             if (input.fail()) {
@@ -174,9 +169,9 @@ class Flight {
 
         void printSeatMap() {
             cout << "     ";
-            for (size_t i = 0; i < size_t(seats); i++) {
+            for (char i = 'A'; i < char('A' + seats); i++) {
                 // print row letters on top
-                printf("%-4c", char(i + 65));
+                printf("%-4c", i);
             }
             cout << endl << "   ";
 
@@ -205,6 +200,8 @@ class Flight {
 
                 cout << endl;
             }
+            
+            cout << endl;
         }
 
         void printPassengerInfo() {
@@ -227,11 +224,10 @@ class Flight {
 
         bool isSeatOccupied(const int row, const char seat) {
             for (size_t i = 0; i < pass.size(); i++) {
-                if (pass[i].getSeat().getRow() != row || pass[i].getSeat().getSeat() != seat) {
-                    continue;
+                // quick note, if there is a large number of rows and a relatively small number of seats, checking the seat first is significantly faster as you rule out more row-seat pairs per check when you check the seat first
+                if (pass[i].getSeat().getSeat() == seat && pass[i].getSeat().getRow() == row) {
+                    return true;
                 }
-
-                return true;
             }
             return false;
         }
@@ -275,12 +271,35 @@ class Flight {
             for (size_t i = 0; i < pass.size(); i++) {
                 if (pass[i].getID() == id) {
                     pass.erase(pass.begin() + i);
+                    // TODO: better message here
                     cout << "successfuly removed a passenger!" << endl << endl;
                     return true;
                 }
             }
+            // TODO: better message here
             cout << "couldn't remove the requested id" << endl << endl;
             return false;
+        }
+
+        // so my initial plan was fprintf for formatted text... 
+        void writePassengerFile() {
+            FILE* output;
+            output = fopen("lib/flight_info.txt", "w");
+            if (output == NULL) {
+                cout << "man idk just complain lul" << endl;
+                return;
+            } 
+
+            if (!fprintf(output, "%-9s%-6d%d\n", flightNumber.c_str(), rows, seats)) {
+                cout << "Couldn't write flight info" << endl;
+            }
+            for (size_t i = 0; i < pass.size(); i++) {
+                if(!fprintf(output, "%-20s%-20s%-20s%-4s%s\n", pass[i].getFirstName().c_str(), pass[i].getLastName().c_str(),
+                            pass[i].getPhone().c_str(), (to_string(pass[i].getSeat().getRow()) + pass[i].getSeat().getSeat()).c_str(), pass[i].getID().c_str())) {
+                    cout << "There was a problem writing passenger info" << endl;
+                }
+            }
+            fclose(output);
         }
 };
 

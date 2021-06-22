@@ -58,3 +58,5 @@ dkms.conf
 
 # End of https://www.toptal.com/developers/gitignore/api/c
 
+# the output file lul
+lib/flight_info.txt

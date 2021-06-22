@@ -27,6 +27,7 @@ int main(int argc, const char** argv) {
                 break;
             // save flight info (i.e. write)
             case 5:
+                f.writePassengerFile();
                 break;
             // Quit
             case 6:
