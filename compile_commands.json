@@ -1,1 +1,7 @@
-[]
+[
+    { 
+        "directory": "/home/beaum/Code/School/Flight-Management",
+        "command": "g++ -Wall src/main.cpp",
+        "file": "src/main.cpp"
+    }
+]

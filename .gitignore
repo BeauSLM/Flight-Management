@@ -82,3 +82,4 @@ lib/flight_info.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode
 
+.cache
