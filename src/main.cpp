@@ -1,10 +1,18 @@
 // main.cpp
 // Beau McCartney
-#include "main.h"
+#include "Flight.h"
+#include "cleanIstream.h"
+
+using namespace std;
+
+void pressEnter();
+void titleScreen();
+void titleScreen();
+int optionSelect();
 
 int main(int argc, const char** argv) {
     titleScreen();
-    Flight f = Flight();
+    Flight f;
     int choice;
 
     while ((choice = optionSelect())) {
@@ -42,4 +50,31 @@ int main(int argc, const char** argv) {
     }
 
     return 0;
+}
+
+ void pressEnter() {
+    cout << "\n<<< Press Return to Continue>>>>" << endl;
+    cin.get();
+}
+
+ void titleScreen() {
+    cout << "Version: 1.0" << endl;
+    cout << "Flight Management Program in C++" << endl;
+    cout << "Beau McCartney" << endl;
+    pressEnter();
+}
+
+ int optionSelect() {
+    cout << "Please select one of the following options:" << endl;
+    cout << "1. Display Flight Seat Map." << endl;
+    cout << "2. Display Passenger's Information." << endl;
+    cout << "3. Add a New Passenger." << endl;
+    cout << "4. Remove an Existing Passenger." << endl;
+    cout << "5. Save data." << endl;
+    cout << "6. Quit." << endl;
+    cout << "Enter your choice: (1, 2, 3, 4, 5 or 6) ";
+    int number;
+    cin >> number;
+    cout << endl;
+    return number;
 }
